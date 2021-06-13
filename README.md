@@ -421,7 +421,6 @@
     ESLint: [no-undef](https://eslint.org/docs/rules/no-undef), [prefer-const](https://eslint.org/docs/rules/prefer-const)
 
     ```js
-
     // ダメな例
     superPower = new SuperPower();
     
@@ -491,4 +490,69 @@
     var y = a + 2;
     
     alert(getXPlusY(x, y));
+    ```
+
+  ### 比較演算子と等価性
+
+  - `==`や`!=`より`===`と`!==`を使用する
+
+    ESLint: [eqeqeq](https://eslint.org/docs/rules/eqeqeq.html)
+
+  - if文のような条件式はToBooleanメソッドによる強制型変換で評価され、以下のルールに常に従う
+
+    ```
+    - オブジェクトは`true`と評価
+    - undefinedは`false`と評価
+    - nullは`false`と評価
+    - 真偽値は`boolean`型の値として評価
+    - 数値は`true`と評価されます。しかし`0とNaN`の場合はfalse
+    - 文字列は`true`と評価されます。しかし空文字`''`の場合はfalse
+    ```
+
+    ```js
+    if ([0]) {
+      // true
+      // 配列はオブジェクトなのでtrueとして評価
+    }
+    ```
+
+  - 不要な3項ステートメントを避ける
+
+    ESLint: [no-unneeded-ternary](https://eslint.org/docs/rules/no-unneeded-ternary.html)
+
+    ```js
+    // ダメな例
+    const foo = a ? a : b;
+    const bar = c ? true : false;
+    const baz = c ? false : true;
+    
+    // 良い例
+    const foo = a || b;
+    const bar = !!c;
+    const baz = !c;
+    ```
+
+  ### ブロック
+  - ifブロックが常にreturn文を実行するのであれば、それに続くelseブロックは不要
+
+    ESLint: [no-else-return](https://eslint.org/docs/rules/no-else-return)
+
+    ```js
+    // ダメな例
+    function foo() {
+      if (x) {
+        return x;
+      } else {
+        return y;
+      }
+    }
+
+    // 良い例
+    function foo() {
+      if (x) {
+        return x;
+      }
+    
+      return y;
+    }
     ```

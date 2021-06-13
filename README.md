@@ -556,3 +556,45 @@
       return y;
     }
     ```
+
+  ### タイプキャスティング＆コアーション
+  - 文の先頭で型の強制を行う
+
+    ESLint: [no-new-wrappers](https://eslint.org/docs/rules/no-new-wrappers),
+    [radix](https://eslint.org/docs/rules/radix)
+
+    ```js
+    const age = 0;
+
+    // ダメな例
+    const totalScore = this.reviewScore.toString();
+    const val = parseInt(inputValue);
+    const hasAge = new Boolean(age);
+
+    // 良い例
+    // 文字列の場合はStringを使用する
+    // 数字の場合はNumberを使用する、
+    // parseIntを使用する場合は常に型変換のための基数を引数に渡す
+    // 真偽値の場合はBooleanまたは!!を使用する
+    const totalScore = String(this.reviewScore);
+    const val = Number(inputValue);
+    const val = parseInt(inputValue, 10);
+    const hasAge = Boolean(age);
+    const hasAge = !!age;
+    ```
+
+  ### 命名規則
+  - オブジェクト、関数、インスタンスにはキャメルケース（小文字から始まる）を使用する
+
+    ESLint: [camelcase](https://eslint.org/docs/rules/camelcase.html)
+
+    ```js
+    const age = 0;
+
+    // ダメな例
+    export const apiKey = 'SOMEKEY';
+
+    // 良い例
+    export const API_KEY = 'SOMEKEY';
+    ```
+  - const変数であり、プログラマがそれを変更しないと信頼できる場合に限り、定数を大文字にする

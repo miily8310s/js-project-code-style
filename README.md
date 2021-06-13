@@ -343,3 +343,152 @@
       longNameE,
     } from 'path';
     ```
+
+  ### イテレータ
+  - イテレータを使わない。`for-in`や`for-of`のようなループは使用しない。
+    - 配列を反復処理するには `map()`/`every()`/ `filter()`/ `find()`/`findIndex()`/`reduce()`/`some()`などを使用する
+    - `Object.keys()`/`Object.values()`/`Object.entries()`で配列を作成してオブジェクトを反復処理できるようにする
+
+    ```js
+    const numbers = [1, 2, 3, 4, 5];
+
+    // ダメな例
+    let sum = 0;
+    for (let num of numbers) {
+      sum += num;
+    }
+    sum === 15;
+    
+    const increasedByOne = [];
+    for (let i = 0; i < numbers.length; i++) {
+      increasedByOne.push(numbers[i] + 1);
+    }
+    
+    // 良い例
+    let sum = 0;
+    numbers.forEach((num) => {
+      sum += num;
+    });
+    sum === 15;
+    
+    const increasedByOne = [];
+    numbers.forEach((num) => {
+      increasedByOne.push(num + 1);
+    });
+
+    // 最高な例
+    const sum = numbers.reduce((total, num) => total + num, 0);
+    sum === 15;
+    const increasedByOne = numbers.map(num => num + 1);
+    ```
+
+  ### プロパティ
+  - プロパティにアクセスする場合はドット(`.`)を使用する
+
+    ESLint: [dot-notation](https://eslint.org/docs/rules/dot-notation.html)
+
+    ```js
+    const numbers = [1, 2, 3, 4, 5];
+
+    // ダメな例
+    let sum = 0;
+    for (let num of numbers) {
+      sum += num;
+    }
+    sum === 15;
+    
+    const increasedByOne = [];
+    for (let i = 0; i < numbers.length; i++) {
+      increasedByOne.push(numbers[i] + 1);
+    }
+    
+    // 良い例
+    let sum = 0;
+    numbers.forEach((num) => {
+      sum += num;
+    });
+    sum === 15;
+    
+    const increasedByOne = [];
+    numbers.forEach((num) => {
+      increasedByOne.push(num + 1);
+    });
+    ```
+
+  ### 変数
+  - 変数を宣言する際は、常に`const`か`let`を使用する。使用しない場合はグローバル変数として宣言される。
+
+    ESLint: [no-undef](https://eslint.org/docs/rules/no-undef), [prefer-const](https://eslint.org/docs/rules/prefer-const)
+
+    ```js
+
+    // ダメな例
+    superPower = new SuperPower();
+    
+    // 良い例
+    const superPower = new SuperPower();
+    ```
+
+  - インクリメント演算子(`++`)デクリメント演算子(`--`)を使わない
+    - `num++`の代わりに`num += 1`のような構文で値を変更する方が良い
+
+    ESLint: [no-plusplus](https://eslint.org/docs/rules/no-plusplus)
+
+    ```js
+    // ダメな例
+    const array = [1, 2, 3];
+    let num = 1;
+    num++;
+    --num;
+    
+    let sum = 0;
+    let truthyCount = 0;
+    for (let i = 0; i < array.length; i++) {
+      let value = array[i];
+      sum += value;
+      if (value) {
+        truthyCount++;
+      }
+    }
+    
+    // 良い例
+    const array = [1, 2, 3];
+    let num = 1;
+    num += 1;
+    num -= 1;
+    
+    const sum = array.reduce((a, b) => a + b, 0);
+    const truthyCount = array.filter(Boolean).length;
+    ```
+
+  - 未使用の変数を許可しない
+
+    ESLint: [no-unused-vars](https://eslint.org/docs/rules/no-unused-vars)
+
+    ```js
+    // ダメな例
+    var some_unused_var = 42;
+
+    // y=5の変数yは使用されているとは見なされない
+    var y = 10;
+    y = 5;
+    
+    // z = z + 1の変数zは使用済みとは見なされない
+    var z = 0;
+    z = z + 1;
+    
+    // xは未使用の関数の引数
+    function getX(x, y) {
+        return x;
+    }
+    
+    // 良い例
+    function getXPlusY(x, y) {
+      return x + y;
+    }
+    
+    var x = 1;
+    var y = a + 2;
+    
+    alert(getXPlusY(x, y));
+    ```

@@ -584,7 +584,7 @@
     ```
 
   ### 命名規則
-  - オブジェクト、関数、インスタンスにはキャメルケース（小文字から始まる）を使用する
+  - const変数であり、プログラマがそれを変更しないと信頼できる場合に限り、定数を大文字にする
 
     ESLint: [camelcase](https://eslint.org/docs/rules/camelcase.html)
 
@@ -597,4 +597,4 @@
     // 良い例
     export const API_KEY = 'SOMEKEY';
     ```
-  - const変数であり、プログラマがそれを変更しないと信頼できる場合に限り、定数を大文字にする
+

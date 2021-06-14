@@ -3,10 +3,12 @@
 ## 参照ページ:
 - [Airbnb JavaScript Style Guide](https://github.com/airbnb/javascript)
 - [ESLint rules](https://eslint.org/docs/rules/)
+- [Google JavaScript Style Guide](https://google.github.io/styleguide/jsguide.html)
+- [Google TypeScript Style Guide](https://google.github.io/styleguide/tsguide.html)
 
 ## よく出てくるもの
   ### 変数の参照
-  - すべての参照は`const`を使用し、`var`は使用しない
+  - すべての参照は`const`を使用し、`var`は絶対に使用しない
   
     ESLint: [prefer-const](https://eslint.org/docs/rules/  prefer-const.html), [no-const-assign](https://eslint.org/docs/  rules/no-const-assign.html)
   
@@ -60,7 +62,7 @@
     const atom = {
       value: 1,
     
-      addValue: function (value) {
+      addValue: (value) => {
         return atom.value + value;
       },
     };
@@ -95,7 +97,8 @@
     // 良い例
     const items = [];
     ```
-  - 直接配列に項目を代入せず、Array.pushを使用する
+
+  - 直接配列に項目を代入せず、`Array.push`を使用する
 
     ```js
     const someStack = [];
@@ -105,6 +108,7 @@
     // 良い例
     someStack.push('abracadabra');
     ```
+
   - 配列をコピーする場合は、配列の拡張演算子`...`を使用する
 
     ```js
@@ -164,7 +168,7 @@
 
     ```js
     // ダメな例
-    function getFullName(user) {
+    const getFullName = (user) => {
       const firstName = user.firstName;
       const lastName = user.lastName;
     
@@ -172,16 +176,17 @@
     }
     
     // 良い例
-    function getFullName(obj) {
+    const getFullName = (obj) => {
       const { firstName, lastName } = obj;
       return `${firstName} ${lastName}`;
     }
     
     // 最高な例
-    function getFullName({ firstName, lastName }) {
+    const getFullName = ({ firstName, lastName }) => {
       return `${firstName} ${lastName}`;
     }
     ```
+
   - 配列の構造化代入を使用する
   
     ESLint: [prefer-destructuring](https://eslint.org/docs/rules/prefer-destructuring)
@@ -204,20 +209,20 @@
 
     ```js
     // ダメな例
-    function sayHi(name) {
+    const sayHi = (name) => {
       return 'How are you, ' + name + '?';
     }
     
-    function sayHi(name) {
+    const sayHi = (name) => {
       return ['How are you, ', name, '?'].join();
     }
     
-    function sayHi(name) {
+    const sayHi = (name) => {
       return `How are you, ${ name }?`;
     }
     
     // 良い例
-    function sayHi(name) {
+    const sayHi = (name) => {
       return `How are you, ${name}?`;
     }
     ```
@@ -232,11 +237,11 @@
       // ...
     };
     
-    const foo = function () {
+    // 良い例
+    const foo = () => {
       // ...
     };
     
-    // 良い例
     const short = function longUniqueMoreDescriptiveLexical () {
       // ...
     };
@@ -248,17 +253,17 @@
 
     ```js
     // ダメな例
-    const f = function(){};
-    const g = function (){};
-    const h = function() {};
+    const f = () => {};
+    const g =  ()=>{};
+    const h = () => {};
     
     // 良い例
-    const x = function () {};
+    const x = () {};
     const y = function a() {};
     ```
 
   ### アロー関数
-  - 無名関数を使用する必要がある場合は、アロー関数表記を使用する
+  - 無名関数を使用する必要がある場合は必ずアロー関数表記を使用する
   
     ESLint: [prefer-arrow-callback](https://eslint.org/docs/rules/prefer-arrow-callback.html),[arrow-spacing](https://eslint.org/docs/rules/arrow-spacing.html)
 
@@ -277,7 +282,7 @@
     ```
 
   ### モジュール
-  - 非標準モジュールシステム上では常にモジュール（`import`/`export`）を使用する
+  - 非標準モジュールシステム上では常にモジュール（`import`/`export`）を使用する。requireは使用しない。
 
     ```js
     // ダメな例
@@ -556,9 +561,22 @@
       return y;
     }
     ```
+  - ブロックのインデントは2スペースにすること
+
+    ```js
+    // ダメな例
+    const hoge = () => {
+        console.log('hoge');
+    }
+
+    // 良い例
+    const hoge = () => {
+      console.log('hoge');
+    }
+    ```
 
   ### タイプキャスティング＆コアーション
-  - 文の先頭で型の強制を行う
+  - 文の先頭で型の強制を行う、newをつけての型変換はしない
 
     ESLint: [no-new-wrappers](https://eslint.org/docs/rules/no-new-wrappers),
     [radix](https://eslint.org/docs/rules/radix)
@@ -584,7 +602,21 @@
     ```
 
   ### 命名規則
-  - const変数であり、プログラマがそれを変更しないと信頼できる場合に限り、定数を大文字にする
+  - メソッド名は`lowerCamelCase`で記述する
+
+    ```js
+    // ダメな例
+    const ismethod = () => {
+      // ...
+    };
+
+    // 良い例
+    const isMethod = () => {
+      // ...
+    };
+    ```
+
+  - const変数であり、プログラマがそれを変更しないと信頼できる場合に限り、定数を大文字（`CONSTANT_CASE`）にする
 
     ESLint: [camelcase](https://eslint.org/docs/rules/camelcase.html)
 
@@ -597,4 +629,5 @@
     // 良い例
     export const API_KEY = 'SOMEKEY';
     ```
+  - 変数名は、新しい読者にとって説明的で明確でなければいけない。プロジェクト外の読者にはあいまいまたはなじみのない略語は使用しない
 
